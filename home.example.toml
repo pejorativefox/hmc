@@ -1,0 +1,28 @@
+# hmc example config — copy to ~/.config/hmc/home.toml and run `hmc check`
+# Paths in [dotfiles] source= are relative to THIS file's directory.
+
+[packages]
+# One list per manager; hmc installs each list whose binary exists.
+# Shared cross-machine configs just work (apt on Linux, brew on Mac).
+apt = ["git", "ripgrep", "neovim"]
+brew = ["git", "ripgrep", "neovim"]
+
+[dotfiles]
+# Symlink a repo file into $HOME:
+".bashrc" = { source = "dotfiles/bashrc" }
+".gitconfig" = { source = "dotfiles/gitconfig" }
+# Write inline text directly (mode optional, e.g. "0o600"):
+".config/nvim/init.lua" = { text = "vim.o.number = true\nvim.o.mouse = \"a\"\n" }
+".config/hmc-note.txt" = { text = "managed by hmc\n" }
+
+[services]
+# systemd --user only in v1. enable/start default to true.
+"hello.timer" = { text = "[Unit]\nDescription=hmc hello timer\n\n[Timer]\nOnCalendar=daily\nPersistent=true\n\n[Install]\nWantedBy=timers.target\n", enable = true, start = true }
+
+[env]
+EDITOR = "nvim"
+PATH_prepend = "~/.local/bin"
+
+[hooks]
+pre = ["echo hmc: applying..."]
+post = []

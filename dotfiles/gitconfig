@@ -1,0 +1,5 @@
+[user]
+	name = Example
+	email = you@example.com
+[core]
+	editor = nvim
